@@ -1,0 +1,412 @@
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="keywords" content="steven, uyeda, steven m. uyeda, steven uyeda">
+<meta name="description" content="Portfolio of Steven M. Uyeda's work">
+<meta name="author" content="Steven M. Uyeda">
+<title>Steven M. Uyeda</title>
+
+<link rel="stylesheet" type="text/css" href="/application/views/front_web/front.105.min.css">
+<link href="style.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="http://d1qxsigluyuaz5.cloudfront.net/application/third_party/js/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="http://d1qxsigluyuaz5.cloudfront.net/application/_js/lightbox/lightbox.108.min.css">
+<script src="http://d1qxsigluyuaz5.cloudfront.net/application/third_party/js/jquery-1.10.1.min.js"></script>
+<script src="http://d1qxsigluyuaz5.cloudfront.net/application/views/front_web/front.121.min.js"></script>
+<script src="http://d1qxsigluyuaz5.cloudfront.net/application/third_party/js/jquery.hoverintent.minified.js"></script>
+<script type="text/javascript" src="http://d1qxsigluyuaz5.cloudfront.net/application/third_party/js/fancybox/jquery.fancybox-1.3.4.pack.v2.js"></script>
+<script src="http://d1qxsigluyuaz5.cloudfront.net/application/third_party/js/jquery.mobile-events.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://d1qxsigluyuaz5.cloudfront.net/application/third_party/js/vgrid/jquery.vgrid.0.1.11-c.min.js"></script>
+<script type="text/javascript" src="http://d1qxsigluyuaz5.cloudfront.net/application/third_party/js/vgrid/jquery.easing.1.3-c.js"></script>
+<script src="http://d1qxsigluyuaz5.cloudfront.net/application/_js/lightbox/lightbox.organizer.102.min.js" type="text/javascript"></script>
+<script src="http://d1qxsigluyuaz5.cloudfront.net/application/_js/lightbox/lightbox.109.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    if (top.location.hostname!= self.location.hostname) {
+        top.location = self.location.href
+}
+</script>
+<script>
+    var config = {
+        over: makeTall, // function = onMouseOver callback (REQUIRED)
+        timeout: 150, // number = milliseconds delay before onMouseOut
+        out: makeShort // function = onMouseOut callback (REQUIRED)
+    };
+    function makeTall(self){
+        $(self.currentTarget).find(".second").slideDown('fast').show();
+    }
+    function makeShort(self){
+        $('.second').slideUp("fast").hide();
+    }
+
+    $(document).ready(function(){
+        $('.first > li').hoverIntent( config);
+    });
+
+    $(document).ready(function(){
+        $("html").addClass("desktop");
+        $("body").on('mousedown',"img",function(){
+            return false;
+        });
+        document.body.style.webkitTouchCallout='none';
+        $(document).bind("contextmenu",function(e){
+                return false;
+        });
+
+        $(".refreshCaptcha").click(function(){
+            var captchaImg = $(this).siblings(".captchaImg");
+            $.ajax({
+                url: "/api/captchaapi/getnewimage",
+                success: function (data) {
+                    captchaImg.fadeOut(200,function(){
+                        var d = new Date();
+                        captchaImg.attr("src", "/api/captchaapi/getnewimage?"+d.getTime());
+                        captchaImg.fadeIn(200);
+                    });
+                }
+            });
+        })
+
+    });
+    if (top.location != self.location){
+        //top.location = self.location.href;
+    }
+
+    $(document).ready(function () {
+        //lightbox
+        $("a[rel=lightbox]").fancybox({
+            'transitionIn'		: 'none',
+            'transitionOut'		: 'none',
+            'titlePosition' 	: 'over',
+            showCloseButton : false,
+            padding: 0,
+            'onComplete'	:	function() {
+                $("#fancybox-wrap").hover(function() {
+                    $("#fancybox-title").fadeIn(100);
+                }, function() {
+                    $("#fancybox-title").fadeOut(100);
+                });
+                $(".selectors select").change();
+            },
+            'titleFormat'		: function(title, currentArray, currentIndex, currentOpts) {
+                if(title != "")
+                    return '<span id="fancybox-title-over" class="textContent">' + (currentIndex + 1) + ' / ' + currentArray.length + '&nbsp; ' + title  + '</span>';
+            },
+            onStart : function(selectedArray, selectedIndex, selectedOptions){
+
+                if($(selectedArray[selectedIndex]).closest("td").hasClass("notActive")){
+                    return false;
+                }
+            }
+        });
+    });
+
+    $(function(){
+        $("#fancybox-right-ico").html(">");
+        $("#fancybox-left-ico").html("<");
+    })
+
+    function doGrid(){
+        $("#grid-content").vgrid({
+            easing: "easeOutQuint",
+            time: 10,
+            delay: 10
+
+        });
+    }
+
+    $(document).ready(function(){
+        var colWidth = 290;
+
+        $("#grid-content img").each(function(){
+            var ratio = $(this).data("width") / $(this).data("height");
+            var height = colWidth/ratio;
+            $(this).width(colWidth);
+            $(this).height(height);
+        });
+
+        doGrid();
+
+        $("#grid-content .figure").animate({
+            opacity: 1
+        },400);
+    });
+
+    $(document).ready(function(){
+        $('.image').hover(
+            function () {
+                $(this).fadeTo(0.1,0.69);
+            },
+            function () {
+                $(this).fadeTo(0.1,1);
+            }
+        );
+    });
+
+    $(document).ready(function () {
+        resize_main_container();
+        $(window).bind('resize', function () {
+            resize_main_container();
+        });
+    });
+    function resize_main_container() {
+        var sum_image_width = $('.figure').width() + parseInt($('.figure').css('margin-left')) + parseInt($('.figure').css('margin-right')) + parseInt($('.figure').css('padding-left')) + parseInt($('.figure').css('padding-right'));
+
+        var nr_of_images = Math.floor( $('.main_container').width() / sum_image_width );
+
+        $('.main_container').css('width',nr_of_images * sum_image_width+'px');
+
+                    $('.main_container').css('margin-left',( $(window).width()-nr_of_images*sum_image_width)/16+'px');
+                        };
+
+    $(function(){
+        lightBoxOrganizer.onDocReady();
+    });
+</script>
+<style type="text/css">
+
+ .main_container {
+        border: 1px solid transparent;
+    }
+
+    html {background:#ffffff
+    }
+
+    .menu_container .first {
+        text-align:center;
+    }
+
+    .listText {
+        font-family: 'Crimson Text', serif;
+        color: #666666;
+        font-size: 13px;
+        line-height:130%;
+    }
+
+    .main_container .mainGallery .figure {
+        padding:0px;
+        width:29%;
+        margin:10px;
+        background: none;
+    }
+    .main_container .mainGallery .figcaption {
+        width:100%;
+    }
+    .mainGallery .image{
+        width:100%;
+        margin: 0 auto;
+        vertical-align: top;
+        margin-bottom: 5px;
+    }
+    .main_container .figure {
+        opacity: 0.01;
+        -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=1);
+    }
+</style>
+</head>
+<body>
+<div id="wrapper">
+<div id="nav">
+<p id="font1"> Steven M. Uyeda's Portfolio</p>
+<p id="text1"> Menu</p>
+
+	<div id="header">
+	<div class="mobilesidemenu">
+	<input type="checkbox" id="togglebox" />
+	<!-- Modify anything inside the NAV element -->
+	<nav id="msidemenu">
+		<h2>Site Navigation</h2>
+		<ul>
+			<li><a href="Personal-Website.html">Home</a></li>
+			<li><a href="My-Photos.html">My Photos</a></li>
+			<li><a href="My-Videos.html">My Videos</a></li>
+			<li><a href="Knudsen.html">Knudsen Mock Advertising Campaign</a></li>
+		</ul>
+		<label for="togglebox" id="navtoggler"></label>
+	</nav>
+
+		<div class="overlay"><label for="togglebox"></label></div>
+		<label class="toggler" id="maintoggler" for="togglebox"></label>
+	</div>
+	</div>
+</div>
+
+<h4 id="center">My Photos</h4>
+
+
+<div class="main_container clearfix portfolio">
+<div class="clearfix mainGallery" id="grid-content">
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='0' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117lRtz.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='3456' data-height='5184' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117lRtz.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='3456' data-height='5184' data-guid='28615415117lRtz' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117lRtz.jpg' data-height='5184' data-width='3456'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='1' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415312jPBj.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='3264' data-height='2448' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415312jPBj.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='3264' data-height='2448' data-guid='28615415312jPBj' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415312jPBj.jpg' data-height='2448' data-width='3264'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='2' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415312A5Nu.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='3264' data-height='2448' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415312A5Nu.jpg' alt='KNDR - ' class='image' data-entity='GalleryItem' data-width='3264' data-height='2448' data-guid='28615415312A5Nu' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415312A5Nu.jpg' data-height='2448' data-width='3264'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='3' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117W99H.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='2912' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117W99H.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='2912' data-guid='28615415117W99H' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117W99H.jpg' data-height='2912' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='4' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117S6E1.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='2912' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117S6E1.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='2912' data-guid='28615415117S6E1' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117S6E1.jpg' data-height='2912' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='5' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117R8DM.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='2912' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117R8DM.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='2912' data-guid='28615415117R8DM' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117R8DM.jpg' data-height='2912' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='6' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/2861541511799as.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-2861541511799as.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='2861541511799as' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/2861541511799as.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='7' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117cwCm.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117cwCm.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117cwCm' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117cwCm.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='8' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151173X6h.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-286154151173X6h.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='286154151173X6h' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151173X6h.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='9' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117n1Pk.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117n1Pk.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117n1Pk' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117n1Pk.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='10' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Vabm.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117Vabm.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117Vabm' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Vabm.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='11' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117hE5K.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117hE5K.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117hE5K' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117hE5K.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='12' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151174vi9.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-286154151174vi9.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='286154151174vi9' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151174vi9.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='13' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Sa7T.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117Sa7T.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117Sa7T' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Sa7T.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='14' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151174wbn.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-286154151174wbn.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='286154151174wbn' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151174wbn.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='15' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151178zO4.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-286154151178zO4.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='286154151178zO4' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151178zO4.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='16' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151173U9r.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='2912' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-286154151173U9r.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='2912' data-guid='286154151173U9r' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151173U9r.jpg' data-height='2912' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='17' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Awhj.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='2912' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117Awhj.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='2912' data-guid='28615415117Awhj' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Awhj.jpg' data-height='2912' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='18' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Tzzw.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117Tzzw.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117Tzzw' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Tzzw.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='19' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117S4pJ.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117S4pJ.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117S4pJ' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117S4pJ.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='20' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151170j4P.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-286154151170j4P.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='286154151170j4P' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151170j4P.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='21' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Ujc9.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='2912' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117Ujc9.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='2912' data-guid='28615415117Ujc9' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117Ujc9.jpg' data-height='2912' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='22' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151179q82.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-286154151179q82.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='286154151179q82' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/286154151179q82.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='23' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117w9Vf.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117w9Vf.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117w9Vf' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117w9Vf.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='24' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117hq9E.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117hq9E.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117hq9E' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117hq9E.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='25' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117U7n2.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117U7n2.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117U7n2' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117U7n2.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+	<div class="figure">
+		<a href='#' class='openLightBox' data-pageguid='28615415117OaDq' data-index='26' data-textposition='0' data-fx='fade' data-nrofitems='29' data-color='#666666' data-boxcolor='#fcfbfb' data-bgcolor='#fcfbfb' data-timing='10000' data-pausetiming='1'>
+			<img class='lightBoxImage' src='' data-src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117YPEt.jpg' alt='Steven Uyedas Work - ' width=auto height=auto data-width='5184' data-height='3456' style=display:none>
+			<img src='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/w400-28615415117YPEt.jpg' alt='Steven Uyedas Work - ' class='image' data-entity='GalleryItem' data-width='5184' data-height='3456' data-guid='28615415117YPEt' data-file='http://d2f8l4t0zpiyim.cloudfront.net/000_clients/286154/page/28615415117YPEt.jpg' data-height='3456' data-width='5184'/>
+		</a>
+	</div>
+</div>
+</div>
+
+	<div id="footer">
+		Copyright &copy; 2015 Steven M. Uyeda. All rights reserved.<br/>
+	</div>
+</div>
+
+
+</body>
+</html>
